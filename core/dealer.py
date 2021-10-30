@@ -9,24 +9,17 @@ class Dealer:
     def shuffle_deck(self):
         random.shuffle(self.deck.cards)
 
-    def deal(self, quantity):
-
-        hand = self.deck.cards[0:quantity]
+    def deal(self):
+        hand = self.deck.cards[0:5]
 
         while not self.__one_wild_in_hand(hand):
             self.shuffle_deck()
-            hand = self.deck.cards[0:quantity]
+            hand = self.deck.cards[0:5]
 
-        self.deck.cards = self.deck.cards[quantity:]
+        self.deck.cards = self.deck.cards[5:]
         return hand
 
     def check_winner(self, player01, player02): 
-
-        print(player01.hand)       
-        print(player02.hand)       
-
-        # player01.hand = [[{'name': '2', 'value': 2}], [{'name': 'A', 'value': 14}], [{'name': 'K', 'value': 13}], [{'name': 'k', 'value': 13}], [{'name': 'Q', 'value': 11}]]
-        # player02.hand = [{'name': '4', 'value': 4}, {'name': '4', 'value': 4}, {'name': '3', 'value': 3}, {'name': '3', 'value': 3}, {'name': '2', 'value': 2}]
 
         self.__check_players_power([player01, player02])
         self.__show_result(player01, player02)
@@ -59,10 +52,6 @@ class Dealer:
 
         while tie and count < len(player01.hand):
 
-            # if player01.power['type'] in ["highcard", "straight"]:
-            #     player01.power['value'] += player01.hand[count]['value']
-            #     player02.power['value'] += player02.hand[count]['value']
-            # else:    
             player01.power['value'] += player01.hand[count][0]['value']
             player02.power['value'] += player02.hand[count][0]['value']
 
@@ -81,7 +70,6 @@ class Dealer:
 
             if helper.has_four_of_kind(player.hand):
                 player.power = {
-                    "type": "4kind", 
                     "name": "Four of kind", 
                     "value": 1000 
                 }
@@ -89,7 +77,6 @@ class Dealer:
 
             if helper.has_full_house(player.hand):
                 player.power = {
-                    "type": "fullhouse", 
                     "name": "Full House", 
                     "value": 800 
                 }
@@ -97,7 +84,6 @@ class Dealer:
 
             if len(player.hand) == 5 and helper.is_straight(player.hand, True):
                 player.power = {
-                    "type": "straight", 
                     "name": "Straight", 
                     "value": 500
                 }
@@ -105,7 +91,6 @@ class Dealer:
 
             if helper.has_three_of_kind(player.hand):
                 player.power = {
-                    "type": "3kind", 
                     "name": "Three of a kind", 
                     "value": 300
                 }
@@ -113,15 +98,13 @@ class Dealer:
 
             if helper.has_two_pair(player.hand):
                 player.power = {
-                    "type": "2pair", 
                     "name": "Two pair", 
                     "value": 100 
                 }
                 continue
 
             if helper.has_pair(player.hand):
-                player.power = {
-                    "type": "pair", 
+                player.power = { 
                     "name": "Pair", 
                     "value": 15  
                 }
@@ -129,9 +112,8 @@ class Dealer:
 
             if helper.has_high_card(player.hand):
                 player.power = {
-                    "type": "highcard", 
                     "name": "High Card", 
-                    "value": player.hand[0]['value']
+                    "value": player.hand[0][0]['value']
                 }
                 continue
        

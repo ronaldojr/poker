@@ -1,5 +1,4 @@
 GAME_NAME = "Poker"
-NUMBER_CARDS_PLAYER = 5
 CARDS_TYPES = [
     {"name": "A", "value": 14}, 
     {"name": "K", "value": 13}, 

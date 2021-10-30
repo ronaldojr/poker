@@ -1,6 +1,5 @@
 
 def is_straight(hand, reverse=False):
-
     if reverse:
         hand_copy = hand.copy()
         hand_copy.reverse()
@@ -11,7 +10,7 @@ def is_straight(hand, reverse=False):
 
         if index + 1 < size:
             
-            if (card['value'] - hand[index+1]['value']) != 1:
+            if (card[0]['value'] - hand[index+1][0]['value']) != 1:
                 return False
 
     return True 

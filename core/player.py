@@ -17,15 +17,9 @@ class Player:
     def show_hand(self):
         cards = ""
         
-        if type(self.hand[0]) == type([]):
-            for group in self.hand:
-                if type(group) != type([]):
-                    cards += group['name']
-                else:
-                    cards += "".join([card['name'] for card in group ])
-        else:
-            cards = "".join([card['name'] for card in self.hand ])
-        
+        for group in self.hand:
+            cards += "".join([card['name'] for card in group ])
+
         return cards
 
     def __organize_hand(self):
@@ -62,12 +56,16 @@ class Player:
             self.hand[0].append(wild)
 
     def __organize_sequence(self, wild):
-        is_straight = helper.is_straight(self.hand)
+        new_hand = [ [card] for card in self.hand ]
+
+        is_straight = helper.is_straight(new_hand)
 
         if is_straight:
             self.hand.reverse()
             if wild:
-                self.hand.append(wild)
+                new_hand.append([wild])
+
+            self.hand = new_hand
         else:
             if wild:
                 new_hand = []
@@ -77,6 +75,9 @@ class Player:
                     new_hand.append([card])
 
                 self.hand = new_hand
+            else:
+                self.hand = [ [card] for card in self.hand ]
+
 
     def __get_types_hand(self):
         return set([ card['name'] for card in self.hand ])
